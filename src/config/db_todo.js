@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 
 // Create the connection to database
-const dbPool = mysql.createConnection({
+const dbPool = mysql.createPool({
   host: 'yhh.h.filess.io',
   user: 'todolistapp_castleupon',
   database: 'todolistapp_castleupon',

@@ -6,8 +6,8 @@ const createNewToDo = async (req, res) => {
     const data = req.body
 
     try {
-        await toDoModels.createNewToDo(data, id)
-        res.json({
+        await toDoModels.createNewToDo(id, data)
+        res.status(201).json({
             message: 'Create new todo success',
             data: data
         })
@@ -22,7 +22,7 @@ const createNewToDo = async (req, res) => {
 const getAllToDo = async (req, res) => {
     try {
         const [data] = await toDoModels.getAllToDo()
-        res.json({
+        res.status(200).json({
             message: 'Get all todo success',
             data: data
         })
@@ -39,8 +39,8 @@ const updateToDo = async (req, res) => {
     const data = req.body
 
     try {
-        await toDoModels.updateToDo(data, id)
-        res.json({
+        await toDoModels.updateToDo(id, data)
+        res.status(201).json({
             message: 'Update todo success',
             data: data
         })
@@ -57,7 +57,7 @@ const deleteToDo = async (req, res) => {
 
     try {
         await toDoModels.deleteToDo(id)
-        res.json({
+        res.status(200).json({
             message: 'Delete todo success',
         })
     } catch (error) {

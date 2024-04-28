@@ -1,6 +1,6 @@
 const dbPool = require('../config/db_todo')
 
-const createNewToDo = (body, id) => {
+const createNewToDo = (id, body) => {
     const SQLQuery = `  INSERT INTO todo 
                         VALUES ('${id}', '${body.todo}', '${body.completed}')`
 
@@ -13,7 +13,7 @@ const getAllToDo = () => {
     return dbPool.execute(SQLQuery)
 }
 
-const updateToDo = (body, id) => {
+const updateToDo = (id, body) => {
     const SQLQuery = `  UPDATE todo 
                         SET todo='${body.todo}', completed=${body.completed} 
                         WHERE id='${id}'`

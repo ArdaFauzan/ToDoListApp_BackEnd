@@ -1,8 +1,8 @@
 const dbPool = require('../config/db_todo')
 
-const createNewUser = (id, body) => {
+const createNewUser = (id, body, hashedPassword) => {
     const SQLQuery = `  INSERT INTO user 
-                        VALUES ('${id}', '${body.username}', '${body.email}', '${body.password}')`
+                        VALUES ('${id}', '${body.username}', '${body.email}', '${hashedPassword}')`
 
     return dbPool.execute(SQLQuery)
 }

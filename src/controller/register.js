@@ -1,34 +1,43 @@
-const { nanoid } = require('nanoid')
-const registerModels = require('../models/register')
+const { nanoid } = require('nanoid');
+const registerModels = require('../models/register');
+const bcrypt = require('bcryptjs');
 
 const registerNewUser = async (req, res) => {
-    const { id } = nanoid(8)
-    const data = req.body
+    const id = nanoid(8);
+    const data = req.body;
+    let hashedPassword = await bcrypt.hash(data.password)
 
     try {
-        await registerModels.createNewUser(data, id)
-        const checkEmail = await registerModels.checkEmail(data.email)
-
+        const checkEmail = await registerModels.checkEmail(data.email);
         if (checkEmail.length > 0) {
-            res.status(400).json({
-                message: 'Email is already use'
-            })
+            return res.status(400).json({
+                message: 'Email is already in use'
+            });
         } else if (data.password !== data.passwordConfirm) {
-            res.status(400).json({
-                message: 'Password do not match'
-            })
-        } else {
+            return res.status(400).json({
+                message: 'Passwords do not match'
+            });
+        }
+
+        try {
+            await registerModels.createNewUser(id, data, hashedPassword);
             res.status(201).json({
                 message: 'Create new user success',
                 data: data
-            })
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Server Error',
+                serverMessage: error.message
+            });
         }
+       
     } catch (error) {
         res.status(500).json({
             message: 'Server Error',
-            serverMessage: error
-        })
+            serverMessage: error.message
+        });
     }
-}
+};
 
-module.exports = { registerNewUser }
+module.exports = { registerNewUser };

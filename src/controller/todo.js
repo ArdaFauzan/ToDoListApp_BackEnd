@@ -40,7 +40,7 @@ const updateToDo = async (req, res) => {
 
     try {
         await toDoModels.updateToDo(id, data)
-        res.status(201).json({
+        res.status(200).json({
             message: 'Update todo success',
             data: data
         })

@@ -8,19 +8,16 @@ const loginUser = async (req, res) => {
 
     try {
         const [getData] = await loginModels.getUserByEmail(email);
-        const user = getData[0]; // Dapatkan objek pengguna
+        const user = getData[0]; 
 
-        // Jika tidak ada data yang ditemukan, kirimkan pesan kesalahan
         if (!user || email !== user.email) {
             return res.status(400).json({
                 message: 'Email tidak ditemukan'
             });
         }
 
-        // Bandingkan password yang dimasukkan dengan yang ada di database
         const comparedPassword = await bcrypt.compare(password, user.password);
 
-        // Jika perbandingan berhasil, proses pembuatan token
         if (comparedPassword) {
             const secretKey = process.env.SECRET_KEY;
 
@@ -29,19 +26,17 @@ const loginUser = async (req, res) => {
                 email: user.email
             };
 
-            const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign(payload, secretKey);
 
             res.cookie('authToken', token, {
                 httpOnly: true,
                 secure: true,
-                maxAge: 3600000 // Cookie akan kadaluarsa setelah 1 jam
             });
 
             res.status(200).json({
                 message: 'Login berhasil'
             });
         } else {
-            // Jika password tidak cocok, kirimkan pesan kesalahan
             res.status(400).json({
                 message: 'Password salah'
             });

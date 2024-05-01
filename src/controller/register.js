@@ -7,8 +7,7 @@ const registerNewUser = async (req, res) => {
 
     try {
         const [checkEmailResult] = await registerModels.checkEmail(data.email);
-        const user = checkEmailResult[0]
-        if (user || email === user.email) {
+        if (checkEmailResult.length > 0) {
             return res.status(400).json({
                 message: 'Email is already in use'
             });
@@ -39,6 +38,5 @@ const registerNewUser = async (req, res) => {
         });
     }
 };
-
 
 module.exports = { registerNewUser };

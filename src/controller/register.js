@@ -7,8 +7,8 @@ const registerNewUser = async (req, res) => {
 
     try {
         const [checkEmailResult] = await registerModels.checkEmail(data.email);
-        console.log(checkEmailResult);
-        if (checkEmailResult.length > 0) {
+        const user = checkEmailResult[0]
+        if (user || email === user.email) {
             return res.status(400).json({
                 message: 'Email is already in use'
             });

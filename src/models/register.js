@@ -6,7 +6,7 @@ const createNewUser = (id, name, email, hashedPassword) => {
 }
 
 const checkEmail = (email) => {
-    const SQLQuery = `SELECT email FROM user WHERE email = ?`;
+    const SQLQuery = `SELECT email FROM user`;
     return dbPool.execute(SQLQuery, [email]);
 }
 

@@ -5,4 +5,9 @@ const getUserByEmail = (email) => {
     return dbPool.execute(SQLQuery, [email]);
 }
 
-module.exports = { getUserByEmail };
+const getUserName = (email) => {
+    const SQLQuery = ` SELECT name FROM user WHERE email = ?`;
+    return dbPool.execute(SQLQuery, [email])
+}
+
+module.exports = { getUserByEmail, getUserName };

@@ -1,7 +1,7 @@
 const express = require('express')
 const { createNewToDo, getAllToDo, updateToDo, deleteToDo } = require('../controller/todo')
 const { registerNewUser } = require('../controller/register')
-const { loginUser } = require('../controller/login')
+const { loginUser, getUserName } = require('../controller/login')
 const router = express.Router()
 
 //POST new todo
@@ -21,5 +21,8 @@ router.post('/register', registerNewUser)
 
 //Login user
 router.post('/login', loginUser)
+
+//GET user name
+router.get('/getusername/:email', getUserName)
 
 module.exports = router

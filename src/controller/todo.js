@@ -3,13 +3,19 @@ const toDoModels = require('../models/todo')
 
 const createNewToDo = async (req, res) => {
     const id = nanoid(5)
-    const data = req.body
+    const { todo, completed } = req.body
+    const { name } = req.params
+    const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
-        await toDoModels.createNewToDo(id, data)
+        await toDoModels.createNewToDo(id, name, todo, completed, date)
         res.status(201).json({
             message: 'Create new todo success',
-            data: data
+            data: {
+                todo: todo,
+                completed: completed,
+                date: date
+            }
         })
     } catch (error) {
         res.status(500).json({
@@ -20,8 +26,9 @@ const createNewToDo = async (req, res) => {
 }
 
 const getAllToDo = async (req, res) => {
+    const { name } = req.params
     try {
-        const [data] = await toDoModels.getAllToDo()
+        const [data] = await toDoModels.getAllToDo(name)
         res.status(200).json({
             message: 'Get all todo success',
             data: data
@@ -36,13 +43,16 @@ const getAllToDo = async (req, res) => {
 
 const updateToDo = async (req, res) => {
     const { id } = req.params
-    const data = req.body
+    const { todo, completed } = req.body
 
     try {
-        await toDoModels.updateToDo(id, data)
+        await toDoModels.updateToDo(todo, completed, id)
         res.status(200).json({
             message: 'Update todo success',
-            data: data
+            data: {
+                todo: todo,
+                completed: completed
+            }
         })
     } catch (error) {
         res.status(500).json({

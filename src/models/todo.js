@@ -1,18 +1,18 @@
 const dbPool = require('../config/db_todo');
 
-const createNewToDo = (id, body) => {
-    const SQLQuery = `INSERT INTO todo (id, todo, completed) VALUES (?, ?, ?)`;
-    return dbPool.execute(SQLQuery, [id, body.todo, body.completed]);
+const createNewToDo = (id, user, todo, completed, date) => {
+    const SQLQuery = `INSERT INTO todo (id, user, todo, completed, date) VALUES (?, ?, ?, ?, ?)`;
+    return dbPool.execute(SQLQuery, [id, user, todo, completed, date]);
 }
 
-const getAllToDo = () => {
-    const SQLQuery = 'SELECT * FROM todo';
-    return dbPool.execute(SQLQuery);
+const getAllToDo = (name) => {
+    const SQLQuery = 'SELECT * FROM todo WHERE user = ?';
+    return dbPool.execute(SQLQuery, [name]);
 }
 
-const updateToDo = (id, body) => {
+const updateToDo = (todo, completed, id) => {
     const SQLQuery = `UPDATE todo SET todo = ?, completed = ? WHERE id = ?`;
-    return dbPool.execute(SQLQuery, [body.todo, body.completed, id]);
+    return dbPool.execute(SQLQuery, [todo, completed, id]);
 }
 
 const deleteToDo = (id) => {

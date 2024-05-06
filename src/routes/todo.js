@@ -7,10 +7,10 @@ const { uploadPhoto } = require('../controller/photo')
 const router = express.Router()
 
 //POST new todo
-router.post('/createtodo', createNewToDo)
+router.post('/createtodo/:name', createNewToDo)
 
 //GET todo
-router.get('/gettodo', getAllToDo)
+router.get('/gettodo/:name', getAllToDo)
 
 //UPDATE todo
 router.put('/updatetodo/:id', updateToDo)

@@ -1,33 +1,39 @@
 const { nanoid } = require('nanoid');
 const registerModels = require('../models/register');
 const bcrypt = require('bcryptjs');
+let userIdCounter = 0
 
 const registerNewUser = async (req, res) => {
-    const data = req.body;
+    const {name, email, password, passwordConfirm} = req.body;
 
     try {
-        const [checkEmailResult] = await registerModels.checkEmail(data.email);
+        const [checkEmailResult] = await registerModels.checkEmail(email);
         if (checkEmailResult.length > 0) {
             return res.status(400).json({
                 message: 'Email is already in use'
             });
-        } else if (data.password !== data.passwordConfirm) {
+        } else if (password !== passwordConfirm) {
             return res.status(400).json({
                 message: 'Password do not match'
             });
         } else {
-            const hashedPassword = await bcrypt.hash(data.password, 10);
-            const id = nanoid(10);
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-            await registerModels.createNewUser(id, data.name, data.email, hashedPassword, null);
+            const generateUserId = () => {
+                userIdCounter++;
+                const userId = `user-${userIdCounter.toString().padStart(2, '0')}`;
+                return userId;
+            }
+
+            const id = generateUserId();
+
+            await registerModels.createNewUser(id, name, email, hashedPassword, null);
             res.status(201).json({
                 message: 'Create new user success',
                 data: {
                     id: id,
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    hashedPassword: hashedPassword
+                    name: name,
+                    email: email,
                 }
             });
         }

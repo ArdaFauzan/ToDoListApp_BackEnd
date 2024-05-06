@@ -16,7 +16,7 @@ const uploadPhoto = async (req, res) => {
         const { name } = req.params;
 
         await photoModels.postUserPhoto(data.url, name);
-        res.status(201).send({
+        res.status(201).json({
             data: data,
             status: true
         });

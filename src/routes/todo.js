@@ -3,7 +3,7 @@ const { createNewToDo, getAllToDo, updateToDo, deleteToDo } = require('../contro
 const { registerNewUser } = require('../controller/register')
 const { loginUser, getUserName } = require('../controller/login')
 const uploadPhotoMiddleware = require('../middleware/uploadPhoto')
-const { uploadPhoto } = require('../controller/photo')
+const { uploadPhoto, getUserPhoto } = require('../controller/photo')
 const router = express.Router()
 
 //POST new todo
@@ -28,9 +28,9 @@ router.post('/login', loginUser)
 router.get('/getusername/:email', getUserName)
 
 //POST user photo
-router.post('/uploadphoto', uploadPhotoMiddleware.single('image'), uploadPhoto)
+router.post('/uploadphoto/:name', uploadPhotoMiddleware.single('image'), uploadPhoto)
 
-// //GET user photo
-// router.get('/getphoto/:name', )
+//GET user photo
+router.get('/getphoto/:name', getUserPhoto)
 
 module.exports = router

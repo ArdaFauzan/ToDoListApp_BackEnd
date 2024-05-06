@@ -30,13 +30,17 @@ const uploadPhoto = async (req, res) => {
 };
 
 const getUserPhoto = async (req, res) => {
-    const { name } = req.params
-
+    const { name } = req.params;
     try {
-        const url = await photoModels.getUserPhoto(name)
+        const [imageurl] = await photoModels.getUserPhoto(name);
+        res.status(200).json({
+            url: imageurl
+        });
     } catch (error) {
-
+        console.error(error);
+        res.status(500).send('Error retrieving photo');
     }
-}
+};
+
 
 module.exports = { uploadPhoto, getUserPhoto };

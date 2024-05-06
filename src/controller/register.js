@@ -19,7 +19,7 @@ const registerNewUser = async (req, res) => {
             const hashedPassword = await bcrypt.hash(data.password, 10);
             const id = nanoid(10);
 
-            await registerModels.createNewUser(id, data.name, data.email, hashedPassword);
+            await registerModels.createNewUser(id, data.name, data.email, hashedPassword, null);
             res.status(201).json({
                 message: 'Create new user success',
                 data: {

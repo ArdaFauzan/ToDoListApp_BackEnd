@@ -19,7 +19,7 @@ const storage = multerS3({
         cb(null, {fieldName: file.fieldname});
       },
     key: function (req, file, cb) {
-        cb(null, `images/${Date.now().toString()}-${file.originalname}`);
+        cb(null, `images-${Date.now().toString()}-${file.originalname}`);
     }
 })
 

@@ -5,10 +5,12 @@ const createNewToDo = async (req, res) => {
     const id = nanoid(5)
     const { todo, completed } = req.body
     const { name } = req.params
+    const [getUserId] = await toDoModels.getIdUser(name)
+    const user_id = getUserId[0]
     const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
-        await toDoModels.createNewToDo(id, name, todo, completed, date)
+        await toDoModels.createNewToDo(id, user_id.id, todo, completed, date)
         res.status(201).json({
             message: 'Create new todo success',
             data: {
@@ -27,8 +29,10 @@ const createNewToDo = async (req, res) => {
 
 const getAllToDo = async (req, res) => {
     const { name } = req.params
+    const [getUserId] = await toDoModels.getIdUser(name)
+    const user_id = getUserId[0]
     try {
-        const [data] = await toDoModels.getAllToDo(name)
+        const [data] = await toDoModels.getAllToDo(user_id.id)
         res.status(200).json({
             message: 'Get all todo success',
             data: data

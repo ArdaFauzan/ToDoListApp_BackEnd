@@ -54,8 +54,7 @@ const getUserName = async (req, res) => {
     const { email } = req.params
 
     try {
-        const [getName] = await loginModels.getUserName(email)
-        const name = getName[0]
+        const [name] = await loginModels.getUserName(email)
 
         res.status(200).json({
             message: 'Get name success',

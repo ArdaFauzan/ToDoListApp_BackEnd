@@ -31,6 +31,7 @@ const getAllToDo = async (req, res) => {
     const { name } = req.params
     const [getUserId] = await toDoModels.getIdUser(name)
     const user_id = getUserId[0]
+    console.log(user_id.id)
     try {
         const [data] = await toDoModels.getAllToDo(user_id.id)
         res.status(200).json({

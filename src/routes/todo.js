@@ -4,6 +4,7 @@ const { registerNewUser } = require('../controller/register')
 const { loginUser, getUserName } = require('../controller/login')
 const uploadPhotoMiddleware = require('../middleware/uploadPhoto')
 const { uploadPhoto, getUserPhoto } = require('../controller/photo')
+const { checkNameAndEmail, createNewPassword } = require('../controller/resetPassword')
 const router = express.Router()
 
 //POST new todo
@@ -32,5 +33,11 @@ router.post('/uploadphoto/:name', uploadPhotoMiddleware.single('image'), uploadP
 
 //GET user photo
 router.get('/getphoto/:name', getUserPhoto)
+
+//CHECK name and email user
+router.post('/checknameandemail', checkNameAndEmail)
+
+//UPDATE password
+router.put('/resetpassword/:name', createNewPassword)
 
 module.exports = router

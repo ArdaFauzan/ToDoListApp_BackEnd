@@ -7,10 +7,15 @@ const checkNameAndEmail = async (req, res) => {
     try {
         const [getUser] = await resetPasswordModels.checkUser(name, email)
         const user = getUser[0]
+        console.log(user)
 
-        if (!user || name !== user.name || user.email) {
+        if (name !== user.name || email !== user.email) {
             return res.status(400).json({
                 message: 'Email atau Nama tidak ditemukan'
+            })
+        } else {
+            return res.status(200).json({
+                message: 'Email dan Nama ditemukan'
             })
         }
     } catch (error) {
@@ -24,7 +29,7 @@ const checkNameAndEmail = async (req, res) => {
 }
 
 const createNewPassword = async (req, res) => {
-    const { name } = req.params
+    const { name, email } = req.params
     const { password, passwordConfirm } = req.body
 
     try {

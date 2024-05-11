@@ -38,6 +38,6 @@ router.get('/getphoto/:name', getUserPhoto)
 router.post('/checknameandemail', checkNameAndEmail)
 
 //UPDATE password
-router.put('/resetpassword/:name', createNewPassword)
+router.put('/resetpassword/:name/:email', createNewPassword)
 
 module.exports = router

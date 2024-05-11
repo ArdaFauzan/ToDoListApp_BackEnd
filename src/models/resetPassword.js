@@ -1,3 +1,5 @@
+const dbPool = require('../config/db_todo');
+
 const checkUser = (name, email) => {
     const SQLQuery = `  SELECT * FROM user 
                         WHERE name = ? 

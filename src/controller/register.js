@@ -28,7 +28,7 @@ const registerNewUser = async (req, res) => {
 
             const id = generateUserId();
 
-            await registerModels.createNewUser(id, name, email, hashedPassword, null);
+            await registerModels.createNewUser(id, name, email, hashedPassword);
             res.status(201).json({
                 message: 'Create new user success',
                 data: {

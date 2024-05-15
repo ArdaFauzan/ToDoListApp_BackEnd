@@ -14,7 +14,8 @@ const postUserPhoto = (url, name) => {
 };
 
 const deleteUserPhoto = (name) => {
-    const SQLQuery = `  DELETE FROM user 
+    const SQLQuery = `  UPDATE user
+                        SET imageurl = NULL
                         WHERE name = ?`;
     return dbPool.execute(SQLQuery, [name]);
 }

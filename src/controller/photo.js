@@ -31,6 +31,7 @@ const uploadPhoto = async (req, res) => {
 
 const getUserPhoto = async (req, res) => {
     const { name } = req.params;
+
     try {
         const [imageurl] = await photoModels.getUserPhoto(name);
         res.status(200).json({
@@ -42,5 +43,20 @@ const getUserPhoto = async (req, res) => {
     }
 };
 
+const deleteUserPhoto = async (req, res) => {
+    const { name } = req.params
 
-module.exports = { uploadPhoto, getUserPhoto };
+    try {
+        await photoModels.deleteUserPhoto(name)
+        res.status(200).json({
+            message: 'Delete photo success'
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error delete photo');
+    }
+
+}
+
+
+module.exports = { uploadPhoto, getUserPhoto, deleteUserPhoto };

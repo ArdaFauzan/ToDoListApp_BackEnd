@@ -13,4 +13,10 @@ const postUserPhoto = (url, name) => {
     return dbPool.execute(SQLQuery, [url, name]);
 };
 
-module.exports = { getUserPhoto, postUserPhoto };
+const deleteUserPhoto = (name) => {
+    const SQLQuery = `  DELETE FROM user 
+                        WHERE name = ?`;
+    return dbPool.execute(SQLQuery, [name]);
+}
+
+module.exports = { getUserPhoto, postUserPhoto, deleteUserPhoto };

@@ -6,7 +6,7 @@ const createNewToDo = (id, user_id, todo, completed, date) => {
 }
 
 const getAllToDo = (user_id) => {
-    const SQLQuery = 'SELECT * FROM todo WHERE user_id = ?';
+    const SQLQuery = 'SELECT * FROM todo WHERE user_id = ? ORDER BY date DESC';
     return dbPool.execute(SQLQuery, [user_id]);
 }
 

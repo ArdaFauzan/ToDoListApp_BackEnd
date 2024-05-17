@@ -28,13 +28,9 @@ const loginUser = async (req, res) => {
 
             const token = jwt.sign(payload, secretKey);
 
-            res.cookie('authToken', token, {
-                httpOnly: true,
-                secure: true,
-            });
-
             res.status(200).json({
-                message: 'Login berhasil'
+                message: 'Login berhasil',
+                token: token
             });
         } else {
             res.status(400).json({

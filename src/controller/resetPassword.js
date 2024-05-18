@@ -7,7 +7,6 @@ const checkNameAndEmail = async (req, res) => {
     try {
         const [getUser] = await resetPasswordModels.checkUser(name, email)
         const user = getUser[0]
-        console.log(user)
 
         if (name !== user.name || email !== user.email) {
             return res.status(400).json({

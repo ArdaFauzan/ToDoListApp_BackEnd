@@ -20,15 +20,9 @@ const deleteToDo = (id) => {
     return dbPool.execute(SQLQuery, [id]);
 }
 
-const getIdUser = (name) => {
-    const SQLQuery = `SELECT id from user WHERE name = ?`
-    return dbPool.execute(SQLQuery, [name])
-}
-
 module.exports = {
     createNewToDo,
     getAllToDo,
     updateToDo,
     deleteToDo,
-    getIdUser
 }

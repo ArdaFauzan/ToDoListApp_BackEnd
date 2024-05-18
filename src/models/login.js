@@ -6,10 +6,10 @@ const getUserByEmail = (email) => {
     return dbPool.execute(SQLQuery, [email]);
 }
 
-const getUserName = (email) => {
+const getUserNameById = (id) => {
     const SQLQuery = `  SELECT name FROM user 
-                        WHERE email = ?`;
-    return dbPool.execute(SQLQuery, [email])
+                        WHERE id = ?`;
+    return dbPool.execute(SQLQuery, [id])
 }
 
-module.exports = { getUserByEmail, getUserName };
+module.exports = { getUserByEmail, getUserNameById };

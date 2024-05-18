@@ -4,13 +4,11 @@ const toDoModels = require('../models/todo')
 const createNewToDo = async (req, res) => {
     const id = nanoid(5)
     const { todo, completed } = req.body
-    const { name } = req.params
-    const [getUserId] = await toDoModels.getIdUser(name)
-    const user_id = getUserId[0]
+    const { user_id } = req.params
     const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
-        await toDoModels.createNewToDo(id, user_id.id, todo, completed, date)
+        await toDoModels.createNewToDo(id, user_id, todo, completed, date)
         res.status(201).json({
             message: 'Create new todo success',
             data: {
@@ -28,12 +26,10 @@ const createNewToDo = async (req, res) => {
 }
 
 const getAllToDo = async (req, res) => {
-    const { name } = req.params
-    const [getUserId] = await toDoModels.getIdUser(name)
-    const user_id = getUserId[0]
-    console.log(user_id.id)
+    const { user_id } = req.params
+
     try {
-        const [data] = await toDoModels.getAllToDo(user_id.id)
+        const [data] = await toDoModels.getAllToDo(user_id)
         res.status(200).json({
             message: 'Get all todo success',
             data: data
@@ -47,11 +43,11 @@ const getAllToDo = async (req, res) => {
 }
 
 const updateToDo = async (req, res) => {
-    const { id } = req.params
+    const { todo_id } = req.params
     const { todo, completed } = req.body
 
     try {
-        await toDoModels.updateToDo(todo, completed, id)
+        await toDoModels.updateToDo(todo, completed, todo_id)
         res.status(200).json({
             message: 'Update todo success',
             data: {
@@ -68,10 +64,10 @@ const updateToDo = async (req, res) => {
 }
 
 const deleteToDo = async (req, res) => {
-    const { id } = req.params
+    const { todo_id } = req.params
 
     try {
-        await toDoModels.deleteToDo(id)
+        await toDoModels.deleteToDo(todo_id)
         res.status(200).json({
             message: 'Delete todo success',
         })

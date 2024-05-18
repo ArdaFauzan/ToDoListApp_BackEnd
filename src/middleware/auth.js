@@ -5,8 +5,7 @@ require('dotenv').config();
 const verifyToken = async (req, res, next) => {
     let { authorization } = req.headers;
     const token = authorization.split(' ')[1];
-    console.log(token)
-
+    
     if (!token) {
         return res.status(401).json({
             error: "A token is required for authentication",
@@ -16,7 +15,6 @@ const verifyToken = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token,  process.env.SECRET_KEY);
-        console.log(decoded)
         const user = await getUserByEmail(decoded.email);
         if (!user) {
             return res.status(400).json({

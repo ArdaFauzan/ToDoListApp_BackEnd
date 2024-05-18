@@ -30,7 +30,8 @@ const loginUser = async (req, res) => {
 
             res.status(200).json({
                 message: 'Login berhasil',
-                token: token
+                token: token,
+                user_id: user.id,
             });
         } else {
             res.status(400).json({
@@ -47,11 +48,10 @@ const loginUser = async (req, res) => {
 };
 
 const getUserName = async (req, res) => {
-    const { email } = req.params
+    const { user_id } = req.params
 
     try {
-        const [name] = await loginModels.getUserName(email)
-        console.log(name)
+        const [name] = await loginModels.getUserNameById(user_id)
 
         res.status(200).json({
             message: 'Get name success',

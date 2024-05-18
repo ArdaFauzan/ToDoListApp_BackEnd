@@ -13,9 +13,9 @@ const uploadPhoto = async (req, res) => {
     };
 
     try {
-        const { name } = req.params;
+        const { user_id } = req.params;
 
-        await photoModels.postUserPhoto(data.url, name);
+        await photoModels.postUserPhoto(data.url, user_id);
         res.status(201).json({
             data: data,
             status: true
@@ -30,10 +30,10 @@ const uploadPhoto = async (req, res) => {
 };
 
 const getUserPhoto = async (req, res) => {
-    const { name } = req.params;
+    const { user_id } = req.params;
 
     try {
-        const [imageurl] = await photoModels.getUserPhoto(name);
+        const [imageurl] = await photoModels.getUserPhoto(user_id);
         res.status(200).json({
             url: imageurl
         });
@@ -44,10 +44,10 @@ const getUserPhoto = async (req, res) => {
 };
 
 const deleteUserPhoto = async (req, res) => {
-    const { name } = req.params
+    const { user_id } = req.params
 
     try {
-        await photoModels.deleteUserPhoto(name)
+        await photoModels.deleteUserPhoto(user_id)
         res.status(200).json({
             message: 'Delete photo success'
         })

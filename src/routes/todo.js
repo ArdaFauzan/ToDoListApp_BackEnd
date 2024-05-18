@@ -9,16 +9,16 @@ const verifyToken = require('../middleware/auth')
 const router = express.Router()
 
 //POST new todo
-router.post('/createtodo/:name', createNewToDo)
+router.post('/createtodo/:user_id', verifyToken, createNewToDo)
 
 //GET todo
-router.get('/gettodo/:name', verifyToken, getAllToDo)
+router.get('/gettodo/:user_id', verifyToken, getAllToDo)
 
 //UPDATE todo
-router.put('/updatetodo/:id', verifyToken, updateToDo)
+router.put('/updatetodo/:todo_id', verifyToken, updateToDo)
 
 //DELETE todo
-router.delete('/deletetodo/:id', verifyToken, deleteToDo)
+router.delete('/deletetodo/:todo_id', verifyToken, deleteToDo)
 
 //Register new user
 router.post('/register', registerNewUser)
@@ -27,16 +27,16 @@ router.post('/register', registerNewUser)
 router.post('/login', loginUser)
 
 //GET user name
-router.get('/getusername/:email', verifyToken, getUserName)
+router.get('/getusername/:user_id', verifyToken, getUserName)
 
 //POST user photo
-router.post('/uploadphoto/:name', verifyToken, uploadPhotoMiddleware.single('image'), uploadPhoto)
+router.post('/uploadphoto/:user_id', verifyToken, uploadPhotoMiddleware.single('image'), uploadPhoto)
 
 //GET user photo
-router.get('/getphoto/:name', verifyToken, getUserPhoto)
+router.get('/getphoto/:user_id', verifyToken, getUserPhoto)
 
 //DELETE user photo
-router.delete('/deletephoto/:name', verifyToken, deleteUserPhoto)
+router.delete('/deletephoto/:user_id', verifyToken, deleteUserPhoto)
 
 //CHECK name and email user forgot password
 router.post('/checknameandemail', checkNameAndEmail)

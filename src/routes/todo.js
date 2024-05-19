@@ -18,7 +18,7 @@ router.get('/gettodo/:user_id', verifyToken, getAllToDo)
 router.put('/updatetodo/:todo_id', verifyToken, updateToDo)
 
 //DELETE todo
-router.delete('/deletetodo/:todo_id', verifyToken, deleteToDo)
+router.delete('/deletetodo/:id', verifyToken, deleteToDo)
 
 //Register new user
 router.post('/register', registerNewUser)

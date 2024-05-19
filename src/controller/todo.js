@@ -64,10 +64,10 @@ const updateToDo = async (req, res) => {
 }
 
 const deleteToDo = async (req, res) => {
-    const { todo_id } = req.params
+    const { id } = req.params
 
     try {
-        await toDoModels.deleteToDo(todo_id)
+        await toDoModels.deleteToDo(id)
         res.status(200).json({
             message: 'Delete todo success',
         })

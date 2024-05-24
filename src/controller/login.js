@@ -32,6 +32,7 @@ const loginUser = async (req, res) => {
                 message: 'Login berhasil',
                 token: token,
                 user_id: user.id,
+                name: user.name
             });
         } else {
             res.status(400).json({

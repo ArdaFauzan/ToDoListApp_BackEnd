@@ -8,7 +8,7 @@ const uploadPhoto = async (req, res) => {
     }
 
     const data = {
-        url: req.file.location,
+        url: req.file.filename,
         type: req.file.mimetype
     };
 
@@ -33,12 +33,20 @@ const getUserPhoto = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const [imageurl] = await photoModels.getUserPhoto(user_id);
-        res.status(200).json({
-            url: imageurl
-        });
+        const [user] = await photoModels.getUserPhoto(user_id);
+        const imageUrl = user[0].imageurl;
+
+        if (!imageUrl) {
+            return res.status(404).json({ 
+                message: 'Photo not found' 
+            });
+        }
+
+        const fullUrl = `${req.protocol}://${req.get('host')}/images/${imageUrl}`;
+
+        res.status(200).json({ url: fullUrl });
     } catch (error) {
-        console.error(error);
+        console.error('Error retrieving photo:', error);
         res.status(500).send('Error retrieving photo');
     }
 };

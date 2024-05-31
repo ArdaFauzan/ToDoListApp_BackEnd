@@ -1,12 +1,12 @@
 const dbPool = require('../config/db_todo');
 
-const getUserPhoto = async (id) => {
+const getUserPhoto = (id) => {
     try {
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = await dbPool.execute('SELECT imageurl FROM user WHERE id = ?', [id]);
+        const rows =  dbPool.execute('SELECT imageurl FROM user WHERE id = ?', [id]);
 
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 
         return rows;
     } catch (error) {
@@ -15,10 +15,10 @@ const getUserPhoto = async (id) => {
     }
 }
 
-const postUserPhoto = async (url, id) => {
+const postUserPhoto = (url, id) => {
     const SQLQuery = `UPDATE user SET imageurl = ? WHERE id = ?`;
     try {
-        const result = await dbPool.execute(SQLQuery, [url, id]);
+        const result =  dbPool.execute(SQLQuery, [url, id]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);
@@ -26,10 +26,10 @@ const postUserPhoto = async (url, id) => {
     }
 }
 
-const deleteUserPhoto = async (id) => {
+const deleteUserPhoto = (id) => {
     const SQLQuery = `UPDATE user SET imageurl = NULL WHERE id = ?`;
     try {
-        const result = await dbPool.execute(SQLQuery, [id]);
+        const result =  dbPool.execute(SQLQuery, [id]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);

@@ -1,12 +1,12 @@
 const dbPool = require('../config/db_todo');
 
-const getUserByEmail = async (email) => {
+const getUserByEmail = (email) => {
     try {
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = await dbPool.execute('SELECT * FROM user WHERE email = ?', [email]);
+        const rows = dbPool.execute('SELECT * FROM user WHERE email = ?', [email]);
 
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 
         return rows;
     } catch (error) {

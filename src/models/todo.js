@@ -1,9 +1,9 @@
 const dbPool = require('../config/db_todo');
 
-const createNewToDo = async (id, user_id, todo, completed, date) => {
+const createNewToDo = (id, user_id, todo, completed, date) => {
     const SQLQuery = `INSERT INTO todo (id, user_id, todo, completed, date) VALUES (?, ?, ?, ?, ?)`;
     try {
-        const result = await dbPool.execute(SQLQuery, [id, user_id, todo, completed, date]);
+        const result = dbPool.execute(SQLQuery, [id, user_id, todo, completed, date]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);
@@ -11,13 +11,13 @@ const createNewToDo = async (id, user_id, todo, completed, date) => {
     }
 }
 
-const getAllToDo = async (user_id) => {
+const getAllToDo = (user_id) => {
     try {
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = await dbPool.execute('SELECT * FROM todo WHERE user_id = ? ORDER BY date DESC', [user_id]);
+        const rows = dbPool.execute('SELECT * FROM todo WHERE user_id = ? ORDER BY date DESC', [user_id]);
 
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 
         return rows;
     } catch (error) {
@@ -26,10 +26,10 @@ const getAllToDo = async (user_id) => {
     }
 }
 
-const updateToDo = async (todo, completed, id) => {
+const updateToDo = (todo, completed, id) => {
     const SQLQuery = `UPDATE todo SET todo = ?, completed = ? WHERE id = ?`;
     try {
-        const result = await dbPool.execute(SQLQuery, [todo, completed, id]);
+        const result = dbPool.execute(SQLQuery, [todo, completed, id]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);
@@ -37,10 +37,10 @@ const updateToDo = async (todo, completed, id) => {
     }
 }
 
-const deleteToDo = async (id) => {
+const deleteToDo = (id) => {
     const SQLQuery = `DELETE FROM todo WHERE id = ?`;
     try {
-        const result = await dbPool.execute(SQLQuery, [id]);
+        const result = dbPool.execute(SQLQuery, [id]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);

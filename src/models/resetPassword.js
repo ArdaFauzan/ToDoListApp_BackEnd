@@ -1,12 +1,12 @@
 const dbPool = require('../config/db_todo');
 
-const checkUser = async (name, email) => {
+const checkUser = (name, email) => {
     try {
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = await dbPool.execute('SELECT * FROM user WHERE name = ? OR email = ?', [name, email]);
+        const rows = dbPool.execute('SELECT * FROM user WHERE name = ? OR email = ?', [name, email]);
 
-        await dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 
         return rows;
     } catch (error) {
@@ -15,10 +15,10 @@ const checkUser = async (name, email) => {
     }
 }
 
-const updatePassword = async (password, id) => {
+const updatePassword = (password, id) => {
     const SQLQuery = `UPDATE user SET password = ? WHERE id = ?`;
     try {
-        const result = await dbPool.execute(SQLQuery, [password, id]);
+        const result = dbPool.execute(SQLQuery, [password, id]);
         return result;
     } catch (error) {
         console.error('Error executing query', error);

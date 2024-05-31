@@ -26,9 +26,6 @@ router.post('/register', registerNewUser)
 //Login user
 router.post('/login', loginUser)
 
-//GET user name
-router.get('/getusername/:user_id', verifyToken, getUserName)
-
 //POST user photo
 router.post('/uploadphoto/:user_id', verifyToken, uploadPhotoMiddleware.single('image'), uploadPhoto)
 

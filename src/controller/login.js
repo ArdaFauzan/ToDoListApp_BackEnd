@@ -48,23 +48,4 @@ const loginUser = async (req, res) => {
     }
 };
 
-const getUserName = async (req, res) => {
-    const { user_id } = req.params
-
-    try {
-        const [name] = await loginModels.getUserNameById(user_id)
-
-        res.status(200).json({
-            message: 'Get name success',
-            data: name
-        })
-    } catch (error) {
-        console.error(error)
-        res.status(500).json({
-            message: 'Server Error',
-            serverMessage: error.message
-        })
-    }
-}
-
-module.exports = { loginUser, getUserName };
+module.exports = { loginUser };

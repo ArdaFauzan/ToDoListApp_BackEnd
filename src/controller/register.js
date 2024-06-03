@@ -1,15 +1,13 @@
-const { nanoid } = require('nanoid');
 const registerModels = require('../models/register');
 const bcrypt = require('bcryptjs');
-let userIdCounter = 0
 
 const registerNewUser = async (req, res) => {
-    const {name, email, password, passwordConfirm} = req.body;
+    const { name, email, password, passwordConfirm } = req.body;
 
     try {
         const [getEmail] = await registerModels.checkEmail(email);
-        const checkEmail = getEmail[0] 
-        if (checkEmail.email > 0) {
+        const checkEmail = getEmail[0].count
+        if (checkEmail > 0) {
             return res.status(400).json({
                 message: 'Email is already in use'
             });
@@ -20,13 +18,11 @@ const registerNewUser = async (req, res) => {
         } else {
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const generateUserId = () => {
-                userIdCounter++;
-                const userId = `user-${userIdCounter.toString().padStart(2, '0')}`;
-                return userId;
-            }
+            const [getNumber] = await registerModels.checkNumberId()
 
-            const id = generateUserId();
+            const splitId = getNumber[0].id;
+            const changeNumber = parseInt(splitId.substring('user-'.length));
+            const id = `user-${changeNumber + 1}`
 
             await registerModels.createNewUser(id, name, email, hashedPassword);
             res.status(201).json({

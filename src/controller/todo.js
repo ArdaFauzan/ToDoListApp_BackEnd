@@ -1,4 +1,3 @@
-const { nanoid } = require('nanoid')
 const toDoModels = require('../models/todo')
 
 const createNewToDo = async (req, res) => {

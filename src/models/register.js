@@ -15,7 +15,7 @@ const checkEmail = (email) => {
     try {
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = dbPool.execute('SELECT COUNT(*) AS emailCount FROM user WHERE email = ?', [email]);
+        const rows = dbPool.execute('SELECT COUNT(*) AS count FROM user WHERE email = ?', [email]);
 
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 
@@ -26,4 +26,19 @@ const checkEmail = (email) => {
     }
 }
 
-module.exports = { createNewUser, checkEmail };
+const checkNumberId = () =>{
+    try {
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+
+        const rows = dbPool.execute('SELECT id FROM user ORDER BY id DESC');
+
+        dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+
+        return rows;
+    } catch (error) {
+        console.error('Error executing query', error);
+        throw error;
+    }
+}
+
+module.exports = { createNewUser, checkEmail, checkNumberId };

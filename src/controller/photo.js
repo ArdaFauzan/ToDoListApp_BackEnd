@@ -39,7 +39,6 @@ const getUserPhoto = async (req, res) => {
         if (!imageUrl) {
             return res.status(404).json({ 
                 message: 'Photo not found',
-                url: null, 
             });
         }
 

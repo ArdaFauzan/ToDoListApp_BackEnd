@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
 
         if (!user || email !== user.email) {
             return res.status(400).json({
-                message: 'Email tidak ditemukan'
+                message: 'Email not found'
             });
         }
 
@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
             });
         } else {
             res.status(400).json({
-                message: 'Password salah'
+                message: 'Password is wrong'
             });
         }
     } catch (error) {

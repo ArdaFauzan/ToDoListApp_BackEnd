@@ -1,10 +1,10 @@
 const dbPool = require('../config/db_todo');
 
-const checkUser = (name, email) => {
+const checkUser = (email) => {
     try {
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = dbPool.execute('SELECT * FROM user WHERE name = ? OR email = ?', [name, email]);
+        const rows = dbPool.execute('SELECT * FROM user WHERE email = ?', [email]);
 
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 

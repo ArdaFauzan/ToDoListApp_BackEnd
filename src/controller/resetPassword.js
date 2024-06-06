@@ -5,7 +5,7 @@ const checkNameAndEmail = async (req, res) => {
     const { name, email } = req.body
 
     try {
-        const [getUser] = await resetPasswordModels.checkUser(name, email)
+        const [getUser] = await resetPasswordModels.checkUser(email)
         const user = getUser[0]
 
         if (name !== user.name || email !== user.email) {

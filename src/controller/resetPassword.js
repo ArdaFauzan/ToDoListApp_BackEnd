@@ -28,7 +28,7 @@ const checkNameAndEmail = async (req, res) => {
 }
 
 const createNewPassword = async (req, res) => {
-    const { name, email } = req.params
+    const { email } = req.params
     const { password, passwordConfirm } = req.body
 
     try {
@@ -38,7 +38,7 @@ const createNewPassword = async (req, res) => {
             });
         }
 
-        const [getUser] = await resetPasswordModels.checkUser(name, email)
+        const [getUser] = await resetPasswordModels.checkUser(email)
         const user = getUser[0]
 
         const hashedPassword = await bcrypt.hash(password, 10);

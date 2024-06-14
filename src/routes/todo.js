@@ -39,6 +39,6 @@ router.delete('/deletephoto/:user_id', verifyToken, deleteUserPhoto)
 router.post('/checknameandemail', checkNameAndEmail)
 
 //UPDATE password
-router.put('/createnewpassword/:name/:email', createNewPassword)
+router.put('/createnewpassword/:email', createNewPassword)
 
 module.exports = router

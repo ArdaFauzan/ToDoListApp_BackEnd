@@ -1,5 +1,6 @@
 const registerModels = require('../models/register');
-const bcrypt = require('bcryptjs');
+const CryptoJS = require('crypto-js');
+
 
 const registerNewUser = async (req, res) => {
     const { name, email, password, passwordConfirm } = req.body;
@@ -16,15 +17,18 @@ const registerNewUser = async (req, res) => {
                 message: 'Password do not match'
             });
         } else {
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const key = process.env.AES_SECRET_KEY;
+            const iv = CryptoJS.lib.WordArray.random(16);
+
+            const encryptedPassword = await CryptoJS.AES.encrypt(password, key, { iv });
+            const userPassword = (`${encryptedPassword}${iv}`).toString();
 
             const [getNumber] = await registerModels.checkNumberId()
+            const number = getNumber[0].max_number
+            const changeNumber = number + 1
+            const id = `user-${changeNumber}`
 
-            const splitId = getNumber[0].id;
-            const changeNumber = parseInt(splitId.substring('user-'.length));
-            const id = `user-${changeNumber + 1}`
-
-            await registerModels.createNewUser(id, name, email, hashedPassword);
+            await registerModels.createNewUser(id, name, email, userPassword);
             res.status(201).json({
                 message: 'Create new user success',
                 data: {

@@ -30,7 +30,7 @@ const checkNumberId = () =>{
     try {
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
-        const rows = dbPool.execute('SELECT id FROM user ORDER BY id DESC');
+        const rows = dbPool.execute('SELECT MAX(CAST(SUBSTRING(id, 6) AS UNSIGNED)) AS max_number FROM user;');
 
         dbPool.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 

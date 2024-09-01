@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const loginModels = require('../models/login');
 const CryptoJS = require('crypto-js');
 

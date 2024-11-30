@@ -44,8 +44,7 @@ const createNewPassword = async (req, res) => {
         const encrypted = encrypt(password);
         await resetPasswordModels.updatePassword(encrypted.userPassword, user.id)
         res.status(200).json({
-            message: 'Password successfully changed',
-            encrypted: encrypted.userPassword
+            message: 'Password successfully changed'
         })
     } catch (error) {
         res.status(500).json({

@@ -45,7 +45,7 @@ const getUserPhoto = async (req, res) => {
         const fullUrl = `${req.protocol}://${req.get('host')}/images/${imageUrl}`;
 
         res.status(200).json({ 
-            message: 'photo found',
+            message: 'Photo found',
             url: fullUrl });
     } catch (error) {
         console.error('Error retrieving photo:', error);

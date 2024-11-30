@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const loginModels = require('../models/login');
-const CryptoJS = require('crypto-js');
+const { decrypt } = require('../middleware/encrypted');
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -20,9 +20,8 @@ const loginUser = async (req, res) => {
             const [getUserIV] = await loginModels.getIV(email);
             const iv = getUserIV[0].iv;
 
-            const key = process.env.AES_SECRET_KEY;
 
-            const decriptedPassword = CryptoJS.AES.decrypt(encriptedPassword, key, { iv }).toString(CryptoJS.enc.Utf8);
+            const decriptedPassword = decrypt(encriptedPassword, iv);
 
             const comparedPassword = decriptedPassword == password;
 
@@ -40,10 +39,10 @@ const loginUser = async (req, res) => {
                 const token = jwt.sign(payload, secretKey);
 
                 res.status(200).json({
-                    message: 'Login berhasil',
+                    message: 'Login Success',
                     token: token,
                     user_id: user.id,
-                    name: user.name
+                    name: user.name,
                 });
             } else {
                 res.status(400).json({

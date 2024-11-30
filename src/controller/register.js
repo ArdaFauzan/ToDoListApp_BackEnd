@@ -1,5 +1,5 @@
 const registerModels = require('../models/register');
-const CryptoJS = require('crypto-js');
+const { encrypt } = require('../middleware/encrypted');
 
 
 const registerNewUser = async (req, res) => {
@@ -17,18 +17,14 @@ const registerNewUser = async (req, res) => {
                 message: 'Password do not match'
             });
         } else {
-            const key = process.env.AES_SECRET_KEY;
-            const iv = CryptoJS.lib.WordArray.random(16);
-
-            const encryptedPassword = await CryptoJS.AES.encrypt(password, key, { iv });
-            const userPassword = (`${encryptedPassword}${iv}`).toString();
+            const encrypted = encrypt(password);
 
             const [getNumber] = await registerModels.checkNumberId()
             const number = getNumber[0].max_number
             const changeNumber = number + 1
             const id = `user-${changeNumber}`
 
-            await registerModels.createNewUser(id, name, email, userPassword);
+            await registerModels.createNewUser(id, name, email, encrypted.userPassword);
             res.status(201).json({
                 message: 'Create new user success',
                 data: {
@@ -39,6 +35,7 @@ const registerNewUser = async (req, res) => {
             });
         }
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             message: 'Server Error',
             serverMessage: error.message

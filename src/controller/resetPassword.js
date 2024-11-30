@@ -1,5 +1,5 @@
 const resetPasswordModels = require('../models/resetPassword');
-const bcrypt = require('bcryptjs');
+const { encrypt } = require('../middleware/encrypted');
 
 const checkNameAndEmail = async (req, res) => {
     const { name, email } = req.body
@@ -10,11 +10,11 @@ const checkNameAndEmail = async (req, res) => {
 
         if (name !== user.name || email !== user.email) {
             return res.status(400).json({
-                message: 'Email atau Nama tidak ditemukan'
+                message: 'Email or Name not found'
             })
         } else {
             return res.status(200).json({
-                message: 'Email dan Nama ditemukan'
+                message: 'Email and Name found'
             })
         }
     } catch (error) {
@@ -41,10 +41,11 @@ const createNewPassword = async (req, res) => {
         const [getUser] = await resetPasswordModels.checkUser(email)
         const user = getUser[0]
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await resetPasswordModels.updatePassword(hashedPassword, user.id)
+        const encrypted = encrypt(password);
+        await resetPasswordModels.updatePassword(encrypted.userPassword, user.id)
         res.status(200).json({
-            message: 'Password berhasil diubah'
+            message: 'Password successfully changed',
+            encrypted: encrypted.userPassword
         })
     } catch (error) {
         res.status(500).json({
